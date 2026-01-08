@@ -1,0 +1,290 @@
+:root {
+    --bg-color: #131314;
+    --text-color: #e3e3e3;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --accent-color: #00adef; /* Color Vimeo */
+}
+
+/* ----------- BASE ----------- */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* width: 100%; */
+    max-width: 1200px; /* límite cómodo para escritorio */
+    margin: auto;
+    padding: 0 20px;
+}
+
+strong {
+    font-family: 'Bricolage Grotesque', monospace;
+}
+
+.title {
+    font-size: 82px;
+    margin-top: 60px;
+    text-align: center;
+}
+
+/* ----------- VIDEO CARDS ----------- */
+.video-card {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    margin-bottom: 30px;
+    border-radius: 30px;
+    background: #000;
+}
+
+/* Verticales: más angostas y con borde marcado */
+.video-card.vertical {
+    width: 280px;
+    aspect-ratio: 9 / 16;
+    margin: 0 20px 30px 20px;
+    border: 3px solid var(--accent-color);
+    border-radius: 20px;
+}
+
+.video-card.vertical .card-content h2 {
+    font-size: 2rem;
+}
+
+/* Grid flexible */
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    background-color: #000;
+}
+
+.video-card:hover {
+    transform: scale(1.02);
+}
+
+.video-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 1;
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+
+.video-card:hover::before {
+    backdrop-filter: blur(0);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 20px;
+    pointer-events: none;
+}
+
+.card-content h2 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.card-content p {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+/* ----------- ABOUT ME ----------- */
+.about-me {
+    font-size: 1.4rem;
+    text-align: justify;
+    line-height: 1.6;
+    margin-bottom: 60px;
+    font-family: 'Google Sans Code', monospace;
+}
+
+/* ----------- MODAL ----------- */
+#modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.modal-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    background: #282828;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.video-wrapper {
+    flex: 2;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.modal-info {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-info h2 {
+    margin-top: 0;
+    color: var(--accent-color);
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* ----------- CONTACT ME ----------- */
+
+.contact {
+    width: 100%;
+    height: 600px;
+    background-image: linear-gradient(#131314, #2d2d2d);
+    position: absolute;
+    left: 0;
+
+    /* Centrado total de los elementos hijos */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* Color de texto base */
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Espacio entre los enlaces */
+    margin-top: 20px;
+}
+
+a {
+    font-size: 2rem;
+    font-family: 'Bricolage Grotesque', monospace;
+
+    /* Eliminar estilo predeterminado */
+    text-decoration: none;
+    color: inherit;
+    /* Hereda el color del padre (blanco) */
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Espacio entre icono y texto */
+    transition: opacity 0.3s ease;
+}
+
+a:hover {
+    opacity: 0.7;
+    /* Efecto visual simple al pasar el mouse */
+}
+
+/* Estilo para el icono de link externo */
+.external-icon {
+    font-size: 1rem;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+
+/* ----------- RESPONSIVE ----------- */
+@media (max-width: 900px) {
+    .title {
+        font-size: 38px;
+        margin-top: 40px;
+    }
+
+    .about-me {
+        font-size: 1rem;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    .video-card {
+        height: 300px;
+        border-radius: 20px;
+    }
+
+    .card-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .card-content p {
+        font-size: 1rem;
+    }
+
+    .video-card.vertical {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        aspect-ratio: 9 / 16;
+        margin: 0 auto 25px auto;
+    }
+
+    .video-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .modal-container {
+        flex-direction: column;
+        height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-info {
+        padding: 20px;
+    }
+}

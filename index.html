@@ -4,245 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Editor de Video</title>
-    <style>
-        :root {
-            --bg-color: #131314;
-            --text-color: #e3e3e3;
-            --overlay-bg: rgba(0, 0, 0, 0.7);
-            --accent-color: #00adef; /* Color Vimeo */
-        }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            width: 80%;
-            margin: auto;
-        }
-
-        .title {
-            font-size: 82px;
-        }
-
-        /* Contenedor de las secciones */
-        .video-card {
-            position: relative;
-            width: 100%;
-            min-height: 400px; /* Altura mínima base */
-            height: 60vh;      /* Altura responsiva para horizontales */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            margin-bottom: 30px;
-            border-radius: 30px;
-        }
-
-        /* NUEVA CLASE: Contenedor para videos verticales (Redes Sociales) */
-        .video-card.vertical {
-            width: 300px;
-            aspect-ratio: 9 / 16;
-            margin: 0 30px 30px 30px;
-        }
-
-        /* Ajuste para que el contenedor de verticales no rompa el flujo 
-        .video-grid::after {
-            content: "";
-            display: table;
-            clear: both;
-        }*/
-
-        .video-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-        }
-
-        .about-me {
-            font: 2em monospace;
-            text-align: justify;
-        }
-
-        /* Responsive para verticales */
-        @media (max-width: 900px) {
-            .video-card.vertical {
-                width: 100%; /* Un video por fila en móviles */
-                height: 600px;
-            }
-        }
-
-        .bg-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            /* Esto ayuda a que el fondo del elemento video sea negro mientras carga el poster */
-            background-color: #000; 
-        }
-
-        .video-card:hover {
-            transform: scale(1.01);
-        }
-
-        /* Oscurecer un poco el fondo para que se lea el texto */
-        .video-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            transition: background 0.3s ease;
-        }
-
-        .video-card:hover::before {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 800px;
-            padding: 20px;
-        }
-
-        .card-content h2 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .card-content p {
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-
-        /* Estilos de la Superposición (Modal) */
-        #modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-bg);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            box-sizing: border-box;
-        }
-
-        #modal-desc {
-            white-space: pre-line; /* Esto convierte los saltos de línea del texto en saltos visuales */
-        }
-
-        #modal-desc br {
-            display: block; /* Convertimos el salto de línea en un bloque */
-            content: "";    /* Necesario para que algunos navegadores lo rendericen */
-            margin-top: 15px; /* Aquí controlas el espacio extra entre bloques */
-        }
-
-        .modal-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            background: #282828;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-
-        .video-wrapper {
-            flex: 2;
-            aspect-ratio: 16 / 9;
-            background: #000;
-        }
-
-        .video-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .modal-info {
-            flex: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .modal-info h2 {
-            margin-top: 0;
-            color: var(--accent-color);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: white;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .modal-container {
-                flex-direction: column;
-                height: 90vh;
-                overflow-y: auto;
-            }
-            .video-card { height: 400px; }
-            .card-content h2 { font-size: 2rem; }
-        }
-
-        /* Este es el overlay que está entre el video y el texto */
-        .video-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            
-            /* Un color oscuro muy suave para que el blur destaque */
-            background: rgba(0, 0, 0, 0.3); 
-            
-            /* El efecto de desenfoque */
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px); /* Soporte para Safari */
-            
-            z-index: 1; /* Por encima del video */
-            transition: backdrop-filter 0.3s ease, background 0.3s ease;
-        }
-
-        /* Opcional: Que el desenfoque se quite o se reduzca al pasar el mouse */
-        .video-card:hover::before {
-            backdrop-filter: blur(0px);
-            -webkit-backdrop-filter: blur(0px);
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        /* Asegúrate de que el contenido (texto) esté por encima del blur */
-        .card-content {
-            position: relative;
-            z-index: 2; /* Mayor que el z-index del ::before */
-            pointer-events: none; /* Para que el clic pase a través del texto a la tarjeta */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Special+Gothic+Expanded+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -250,7 +16,7 @@
         <h1 class="title">Sobre mi</h1>
         <section class="about-me">
             <p>Soy editor de video y apasionado por la tecnología. Trabajo en producciones para televisión, instituciones y redes sociales, buscando siempre que cada pieza tenga ritmo, claridad y una buena narrativa visual.</p>
-            <p>Me gusta explorar nuevas herramientas y formas más rápidas de resolver problemas. Uso Premiere Pro, After Effects, DaVinci Resolve, FFmpeg y Whisper, combinando lo técnico con lo creativo para que el proceso de edición sea lo más fluido posible.</p>
+            <p>Me gusta explorar nuevas herramientas y formas más rápidas de resolver problemas. Uso <strong>Premiere Pro</strong>, <strong>After Effects</strong>, <strong>DaVinci Resolve</strong>, <strong>FFmpeg</strong> y <strong>Whisper</strong>, combinando lo técnico con lo creativo para que el proceso de edición sea lo más fluido posible.</p>
             <p>Disfruto experimentar con la tecnología, automatizar tareas y encontrar soluciones que simplifiquen el trabajo sin perder calidad. Creo que la edición no es solo cortar y ordenar, sino dar forma a una idea hasta que se sienta viva.</p>
         </section>
         <img src="" alt="">
@@ -385,6 +151,22 @@
                     <p>Click para ver</p>
                 </div>
             </section>
+        </div>
+    </div>
+
+    <div class="contact">
+        <h1 class="title">Contacto</h1>
+        <div class="contact-links">
+            <a href="https://instagram.com/facusoto1998" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+                <span>facusoto1998</span>
+                <i class="fa-solid fa-up-right-from-square external-icon"></i>
+            </a>
+            <a href="https://wa.me/5491165986949" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>(+54) 9 11-6598-6949</span>
+                <i class="fa-solid fa-up-right-from-square external-icon"></i>
+            </a>
         </div>
     </div>
 
