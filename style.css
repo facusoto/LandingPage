@@ -265,6 +265,10 @@ a:hover {
         font-size: 1rem;
     }
 
+    a span {
+        font-size: 1.5rem;
+    }
+
     .video-card.vertical {
         width: 100%;
         max-width: 400px;
