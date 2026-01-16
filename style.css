@@ -13,9 +13,12 @@ body, html {
     background-color: var(--bg-color);
     color: var(--text-color);
     /* width: 100%; */
+    scroll-behavior: smooth;
     max-width: 1200px; /* límite cómodo para escritorio */
     margin: auto;
     padding: 0 20px;
+    background-image: url(imagenes/noise.png);
+    background-size: 200px;
 }
 
 strong {
@@ -26,6 +29,255 @@ strong {
     font-size: 82px;
     margin-top: 60px;
     text-align: center;
+}
+
+/* ----------- ABOUT ME -------------- */
+
+/* Contenedor principal oscuro como en la imagen */
+.skill-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Espacio entre cada fila de skill */
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* Cada fila (Icono + Texto/Circulos) */
+.skill {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Espacio entre la imagen y el contenido de la derecha */
+}
+
+/* Contenedor para el nombre y los círculos (apilados verticalmente) */
+.skill-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Estilo del texto */
+.skill span {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* Contenedor de los círculos */
+.skill-circles {
+    display: flex;
+    gap: 5px;
+    /* Espacio entre bolitas */
+    font-size: 0.8rem;
+    /* Tamaño de los círculos */
+}
+
+/* Círculos rellenos (blancos) */
+.fa-solid.fa-circle {
+    color: white;
+}
+
+/* Círculos vacíos (gris oscuro o bordeado) */
+.fa-regular.fa-circle {
+    color: #444;
+    /* Color gris para los círculos vacíos */
+}
+
+/* 1. Estructura General (Desktop First) */
+.about-me {
+    color: white;
+    min-height: 80vh;
+    /* Ocupa toda la pantalla */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Mitad y mitad */
+    align-items: center;
+    /* Centrado vertical */
+    padding: 5% 0;
+    gap: 40px;
+}
+
+/* 2. Sección de Skills y Nombre */
+.skill-box {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* El nombre ocupa todo el ancho de su mitad */
+.name-box {
+    margin-bottom: 30px;
+}
+
+.name-box h1 {
+    text-align: center;
+    font-family: 'Bricolage Grotesque';
+    font-size: clamp(4.5rem, 4vw, 4rem);
+    /* Tamaño dinámico */
+    line-height: 0.9;
+    margin: 0;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.name-box h2 {
+    text-align: center;
+    font-family: 'Bricolage Grotesque';
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    margin: 0;
+    letter-spacing: 1px;
+    width: 100%;
+}
+
+/* 3. Estilo de cada Skill (Filas) */
+.skill {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.skill-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-info span {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.skill-circles {
+    display: flex;
+    gap: 6px;
+    font-size: 0.7rem;
+    margin-top: 5px;
+}
+
+.fa-solid.fa-circle {
+    color: white;
+}
+
+.fa-regular.fa-circle {
+    color: #444;
+}
+
+/* 4. Sección de Texto (Derecha) */
+.about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Texto más legible */
+    font-weight: normal;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* Posicionamiento del icono */
+#more {
+    position: absolute;
+    bottom: 30px;
+    /* Separación del borde inferior */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Centrado exacto */
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    animation: scroll-bounce 2s infinite;
+    /* Aplicar la animación */
+}
+
+/* Animación de rebote */
+@keyframes scroll-bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Asegurar que el padre sea relativo para que el icono no se escape */
+.about-me {
+    position: relative;
+    /* Crucial para que bottom: 30px funcione */
+    /* ... resto de tus estilos anteriores ... */
+}
+
+/* 5. Adaptación para Celulares (Responsive) */
+@media (max-width: 768px) {
+    .about-me {
+        grid-template-columns: 1fr;
+        /* Una sola columna */
+        padding: 40px 20px;
+        min-height: auto;
+    }
+
+    .about-text {
+        order: 2;
+        /* El texto va abajo de las skills */
+        text-align: justify;
+    }
+
+    .skill-box {
+        order: 1;
+        /* Skills arriba */
+    }
+
+    .name-box h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+
+    #more {
+        display: none;
+    }
+
+    /* Definimos la animación de aparición */
+    @keyframes blur-reveal {
+        from {
+            filter: blur(12px);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .about-text p {
+        /* Creamos una línea de tiempo basada en el scroll del elemento */
+        view-timeline-name: --revealing-p;
+        view-timeline-axis: block;
+
+        /* Aplicamos la animación vinculada al progreso del scroll */
+        animation: blur-reveal linear both;
+        animation-timeline: --revealing-p;
+
+        /* Ajustamos el rango: 
+           entry 0% -> empieza a animar cuando asoma el borde inferior
+           entry 50% -> termina de animar cuando está a mitad de camino
+        */
+        animation-range: entry 0% entry 50%;
+        
+        margin-bottom: 30px; /* Espaciado para notar mejor el efecto */
+    }
 }
 
 /* ----------- VIDEO CARDS ----------- */
@@ -40,9 +292,20 @@ strong {
     cursor: pointer;
     overflow: hidden;
     transition: transform 0.3s ease;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     margin-bottom: 30px;
     border-radius: 30px;
     background: #000;
+    will-change: transform, opacity, filter;
+}
+
+/* Cuando el video esté en el centro de la pantalla */
+.video-card.focused {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: scale(1.05);
+    /* Un poco más grande para resaltar */
+    box-shadow: 0 0px 40px rgba(109, 136, 255, 0.3);
+    z-index: 10;
 }
 
 /* Verticales: más angostas y con borde marcado */
@@ -78,8 +341,38 @@ strong {
     background-color: #000;
 }
 
-.video-card:hover {
-    transform: scale(1.02);
+/* Estado base: Visible pero atenuado y pequeño */
+.reveal-section {
+    opacity: 0.3;
+    transform: scale(0.92);
+    transition:
+        opacity 0.8s ease-out,
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+/* Estado activo: Enfoque total */
+.reveal-section.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Espaciado para que el efecto se aprecie mejor */
+.reveal-section {
+    margin-bottom: 80px;
+}
+
+.reveal-section {
+    opacity: 0.3;
+    transform: scale(0.92);
+    filter: blur(2px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-section.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
 }
 
 .video-card::before {
@@ -190,7 +483,7 @@ strong {
 .contact {
     width: 100%;
     height: 600px;
-    background-image: linear-gradient(#131314, #2d2d2d);
+    background-image: linear-gradient(#13131400, #2d2d2d);
     position: absolute;
     left: 0;
 
