@@ -9,9 +9,9 @@ cards.forEach(card => {
     card.addEventListener('click', () => {
         const vimeoId = card.getAttribute('data-vimeo-id');
         const title = card.getAttribute('data-title');
-        const desc = card.getAttribute('data-desc');
+        const projectId = card.getAttribute('data-project-id'); // Obtenemos el ID del proyecto
 
-        // Dentro del click de la card, justo antes de mostrar el modal:
+        // Lógica de aspect ratio (se mantiene igual)
         if (card.classList.contains('vertical')) {
             vimeoContainer.style.aspectRatio = "9 / 16";
             vimeoContainer.style.maxWidth = "400px";
@@ -21,16 +21,23 @@ cards.forEach(card => {
             vimeoContainer.style.maxWidth = "100%";
         }
 
-        // Insertar el video de Vimeo
-        vimeoContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+        // 1. Insertar el video
+        vimeoContainer.innerHTML = `<iframe src="https://player.vimeo.com/video/${vimeoId}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
 
-        // Insertar textos
+        // 2. Insertar Título
         modalTitle.innerText = title;
-        modalDesc.innerText = desc;
+
+        // 3. Insertar Contenido Rico (HTML)
+        const richContent = document.getElementById(`content-${projectId}`);
+        if (richContent) {
+            modalDesc.innerHTML = richContent.innerHTML; // <--- AQUÍ está el truco
+        } else {
+            modalDesc.innerHTML = ""; // Por si no hay descripción
+        }
 
         // Mostrar modal
         overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Evita scroll de fondo
+        document.body.style.overflow = 'hidden';
     });
 });
 
