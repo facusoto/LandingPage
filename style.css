@@ -229,8 +229,6 @@ strong {
 
     .about-text {
         order: 2;
-        /* El texto va abajo de las skills */
-        text-align: justify;
     }
 
     .skill-box {
@@ -414,7 +412,6 @@ strong {
 /* ----------- ABOUT ME ----------- */
 .about-me {
     font-size: 1.4rem;
-    text-align: justify;
     line-height: 1.6;
     margin-bottom: 60px;
     font-family: 'Google Sans Code', monospace;
