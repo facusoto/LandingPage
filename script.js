@@ -4,12 +4,14 @@ const vimeoContainer = document.getElementById('vimeo-container');
 const modalTitle = document.getElementById('modal-title');
 const modalDesc = document.getElementById('modal-desc');
 const closeBtn = document.querySelector('.close-btn');
+const allBgVideos = document.querySelectorAll('video.bg-video');
 
 cards.forEach(card => {
     card.addEventListener('click', () => {
         const vimeoId = card.getAttribute('data-vimeo-id');
         const title = card.getAttribute('data-title');
         const projectId = card.getAttribute('data-project-id'); // Obtenemos el ID del proyecto
+        allBgVideos.forEach(v => v.pause());
 
         // Lógica de aspect ratio (se mantiene igual)
         if (card.classList.contains('vertical')) {
@@ -46,6 +48,9 @@ function closeModal() {
     overlay.style.display = 'none';
     vimeoContainer.innerHTML = ''; // Detiene el video al cerrar
     document.body.style.overflow = 'auto';
+
+    const backgroundVideos = document.querySelectorAll('video.bg-video');
+    backgroundVideos.forEach(v => v.play());
 }
 
 closeBtn.addEventListener('click', closeModal);
